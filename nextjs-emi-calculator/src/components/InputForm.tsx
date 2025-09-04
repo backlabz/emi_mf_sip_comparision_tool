@@ -19,6 +19,7 @@ export default function InputForm({ onCalculate, onReset }: InputFormProps) {
     rental: 8000,
     mfRate: 10.5,
     extraAmount: 50000,
+    timePeriod: 2,
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -45,6 +46,7 @@ export default function InputForm({ onCalculate, onReset }: InputFormProps) {
       rental: 8000,
       mfRate: 10.5,
       extraAmount: 50000,
+      timePeriod: 2,
     });
     onReset();
   };
@@ -138,16 +140,15 @@ export default function InputForm({ onCalculate, onReset }: InputFormProps) {
             <label className="block text-sm font-medium text-gray-900 mb-1">
               Appreciation Rate (%)
             </label>
-            <select
+            <input
+              type="number"
               name="appRate"
               value={inputs.appRate}
               onChange={handleInputChange}
+              step="0.1"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
               required
-            >
-              <option value={6}>6%</option>
-              <option value={12}>12%</option>
-            </select>
+            />
           </div>
 
           <div>
@@ -159,6 +160,22 @@ export default function InputForm({ onCalculate, onReset }: InputFormProps) {
               name="rental"
               value={inputs.rental}
               onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-900 mb-1">
+              Time Period (Years)
+            </label>
+            <input
+              type="number"
+              name="timePeriod"
+              value={inputs.timePeriod || 2}
+              onChange={handleInputChange}
+              min="1"
+              max="30"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
               required
             />

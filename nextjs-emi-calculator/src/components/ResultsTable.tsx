@@ -5,6 +5,7 @@ import { ComparisonResult } from '@/lib/comparison';
 interface ResultsTableProps {
   results: ComparisonResult[];
   title: string;
+  timePeriod?: number;
 }
 
 export default function ResultsTable({ results, title }: ResultsTableProps) {

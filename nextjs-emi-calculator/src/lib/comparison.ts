@@ -12,6 +12,7 @@ export interface CalculatorInputs {
   rental: number;
   mfRate: number;
   extraAmount: number;
+  timePeriod?: number;
 }
 
 export interface ComparisonResult {
@@ -27,10 +28,10 @@ export interface ComparisonResult {
 }
 
 export function compareOptions(inputs: CalculatorInputs): ComparisonResult[] {
-  const { principal, loanRate, tenure, propertyValue, downPayment, appRate, rental, mfRate, extraAmount } = inputs;
+  const { principal, loanRate, tenure, propertyValue, downPayment, appRate, rental, mfRate, extraAmount, timePeriod = 2 } = inputs;
   const emi = calculateEMI(principal, loanRate, tenure);
-  const months = 24;
-  const years = 2;
+  const months = timePeriod * 12;
+  const years = timePeriod;
 
   // Option A: Prepay EMI + extraAmount + Rental
   const optionA = calculateAmortization(principal, loanRate, tenure, emi, extraAmount, months);

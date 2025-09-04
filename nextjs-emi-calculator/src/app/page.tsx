@@ -6,22 +6,28 @@ import ResultsTable from '@/components/ResultsTable';
 import { CalculatorInputs, ComparisonResult, compareOptions } from '@/lib/comparison';
 
 export default function Home() {
-  const [results6, setResults6] = useState<ComparisonResult[]>([]);
-  const [results12, setResults12] = useState<ComparisonResult[]>([]);
+  const [results, setResults] = useState<ComparisonResult[]>([]);
   const [showResults, setShowResults] = useState(false);
+  const [currentInputs, setCurrentInputs] = useState<CalculatorInputs | null>(null);
 
   const handleCalculate = (inputs: CalculatorInputs) => {
-    const resultsAt6 = compareOptions({ ...inputs, appRate: 6 });
-    const resultsAt12 = compareOptions({ ...inputs, appRate: 12 });
+    const timePeriod = inputs.timePeriod || 2;
+    const userAppRate = inputs.appRate || 6;
 
-    setResults6(resultsAt6);
-    setResults12(resultsAt12);
+    // Use user's appreciation rate for first table
+    const resultsAtUserRate = compareOptions({ ...inputs, appRate: userAppRate, timePeriod });
+
+    // Use a comparison rate (user's rate + 3%) for second table
+    const comparisonRate = userAppRate + 3;
+    const resultsAtComparisonRate = compareOptions({ ...inputs, appRate: comparisonRate, timePeriod });
+
+    setCurrentInputs(inputs);
+    setResults(resultsAtUserRate);
     setShowResults(true);
   };
 
   const handleReset = () => {
-    setResults6([]);
-    setResults12([]);
+    setResults([]);
     setShowResults(false);
   };
 
@@ -42,16 +48,12 @@ export default function Home() {
         <InputForm onCalculate={handleCalculate} onReset={handleReset} />
 
         {/* Results */}
-        {showResults && (
+        {showResults && currentInputs && (
           <div className="mt-12 space-y-12">
             <ResultsTable
-              results={results6}
-              title="6% YoY Property Appreciation"
-            />
-
-            <ResultsTable
-              results={results12}
-              title="12% YoY Property Appreciation"
+              results={results}
+              title={`${currentInputs.appRate || 6}% YoY Property Appreciation (${currentInputs.timePeriod || 2} Years)`}
+              timePeriod={currentInputs.timePeriod || 2}
             />
           </div>
         )}
