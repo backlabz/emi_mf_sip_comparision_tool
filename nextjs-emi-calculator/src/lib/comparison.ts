@@ -13,6 +13,7 @@ export interface CalculatorInputs {
   mfRate: number;
   extraAmount: number;
   timePeriod?: number;
+  appreciationSaturation?: number;
 }
 
 export interface ComparisonResult {
@@ -28,21 +29,21 @@ export interface ComparisonResult {
 }
 
 export function compareOptions(inputs: CalculatorInputs): ComparisonResult[] {
-  const { principal, loanRate, tenure, propertyValue, downPayment, appRate, rental, mfRate, extraAmount, timePeriod = 2 } = inputs;
+  const { principal, loanRate, tenure, propertyValue, downPayment, appRate, rental, mfRate, extraAmount, timePeriod = 2, appreciationSaturation } = inputs;
   const emi = calculateEMI(principal, loanRate, tenure);
   const months = timePeriod * 12;
   const years = timePeriod;
 
   // Option A: Prepay EMI + extraAmount + Rental
   const optionA = calculateAmortization(principal, loanRate, tenure, emi, extraAmount, months);
-  const propertyValueA = calculatePropertyValue(propertyValue, appRate, years);
+  const propertyValueA = calculatePropertyValue(propertyValue, appRate, years, appreciationSaturation);
   const equityA = calculateEquity(propertyValueA, optionA.balance, downPayment);
   const mfValueA = calculateMFValue(rental, mfRate, months);
   const netWealthA = equityA + mfValueA;
 
   // Option B: EMI + extraAmount in MF + Rental
   const optionB = calculateAmortization(principal, loanRate, tenure, emi, 0, months);
-  const propertyValueB = calculatePropertyValue(propertyValue, appRate, years);
+  const propertyValueB = calculatePropertyValue(propertyValue, appRate, years, appreciationSaturation);
   const equityB = calculateEquity(propertyValueB, optionB.balance, downPayment);
   const mfValueB = calculateMFValue(extraAmount + rental, mfRate, months);
   const netWealthB = equityB + mfValueB;

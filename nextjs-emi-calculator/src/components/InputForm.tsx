@@ -47,6 +47,7 @@ export default function InputForm({ onCalculate, onReset }: InputFormProps) {
       mfRate: 10.5,
       extraAmount: 50000,
       timePeriod: 2,
+      appreciationSaturation: undefined,
     });
     onReset();
   };
@@ -178,6 +179,22 @@ export default function InputForm({ onCalculate, onReset }: InputFormProps) {
               max="30"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
               required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-900 mb-1">
+              Appreciation Saturation (Years)
+            </label>
+            <input
+              type="number"
+              name="appreciationSaturation"
+              value={inputs.appreciationSaturation || ''}
+              onChange={handleInputChange}
+              min="1"
+              max="30"
+              placeholder="Leave empty for no saturation"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
             />
           </div>
         </div>
