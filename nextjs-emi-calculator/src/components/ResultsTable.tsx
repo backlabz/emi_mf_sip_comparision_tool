@@ -58,7 +58,7 @@ export default function ResultsTable({ results, title }: ResultsTableProps) {
                 {results.map((result, resultIndex) => (
                   <td
                     key={resultIndex}
-                    className="px-4 py-3 text-sm text-gray-700 border-b"
+                    className="px-4 py-3 text-sm text-gray-900 border-b"
                   >
                     ₹{formatCurrency(result[metric.key as keyof ComparisonResult] as number)}
                   </td>
